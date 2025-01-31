@@ -7,9 +7,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Watch Ads & Earn USDT</h1>
-    <p>Your Balance: <span id="balance">0</span> Points</p>
-    <button id="watchAd">Watch Ad</button>
+    <div class="container">
+        <header>
+            <h1>Earn USDT by Watching Ads</h1>
+            <p>Your Balance: <span id="balance">0</span> Points</p>
+        </header>
+        
+        <div class="ad-container">
+            <h2>Watch Ads Below</h2>
+            <!-- A-ADS Ad Code -->
+            <div id="frame" class="ad-frame">
+                <iframe data-aa='2379161' src='//ad.a-ads.com/2379161?size=728x90' style='width:728px; height:90px; border:0px; padding:0; overflow:hidden; background-color: transparent;'></iframe>
+                <a style="display: block; text-align: right; font-size: 12px;" id="preview-link" href="https://aads.com/campaigns/new/?source_id=2379161&source_type=ad_unit&partner=2379161">Advertise here</a>
+            </div>
+        </div>
+
+        <button id="watchAd" class="cta-button">Watch Ad</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
