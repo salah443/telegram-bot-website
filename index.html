@@ -3,28 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn USDT by Watching Ads</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Ad Revenue Bot Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    
+    <!-- Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Earn USDT by Watching Ads</h1>
-            <p>Your Balance: <span id="balance">0</span> Points</p>
-        </header>
-        
-        <div class="ad-container">
-            <h2>Watch Ads Below</h2>
-            <!-- A-ADS Ad Code -->
-            <div id="frame" class="ad-frame">
-                <iframe data-aa='2379161' src='//ad.a-ads.com/2379161?size=728x90' style='width:728px; height:90px; border:0px; padding:0; overflow:hidden; background-color: transparent;'></iframe>
-                <a style="display: block; text-align: right; font-size: 12px;" id="preview-link" href="https://aads.com/campaigns/new/?source_id=2379161&source_type=ad_unit&partner=2379161">Advertise here</a>
+<body class="light-mode">
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="brand">
+                <img src="assets/logo.svg" alt="Logo">
+                <h1>Ad Revenue Bot</h1>
             </div>
-        </div>
+            
+            <div class="nav-links">
+                <a href="#dashboard" class="active">
+                    <i class="fas fa-home"></i>Dashboard
+                </a>
+                <a href="#earnings">
+                    <i class="fas fa-dollar-sign"></i>Earnings
+                </a>
+                <a href="#history">
+                    <i class="fas fa-history"></i>History
+                </a>
+                <a href="#settings">
+                    <i class="fas fa-cog"></i>Settings
+                </a>
+            </div>
+            
+            <div class="theme-controls">
+                <button id="darkModeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="theme-picker">
+                    <span class="theme-dot" data-theme="default"></span>
+                    <span class="theme-dot" data-theme="blue"></span>
+                    <span class="theme-dot" data-theme="purple"></span>
+                </div>
+            </div>
+        </nav>
 
-        <button id="watchAd" class="cta-button">Watch Ad</button>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="user-welcome">
+                    <h2>Welcome Back, <span id="userName">User</span>!</h2>
+                    <p class="date">Today is <span id="currentDate"></span></p>
+                </div>
+                
+                <div class="header-actions">
+                    <button id="telegramLogin" class="btn btn-primary" style="display: none;">
+                        <i class="fab fa-telegram"></i>Login with Telegram
+                    </button>
+                    <div id="userProfile" class="user-profile" style="display: none;">
+                        <img id="userPhoto" src="" alt="Profile">
+                        <span id="userBalance">$0.00</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Balance Card -->
+                <div class="card balance-card">
+                    <h3>Current Balance</h3>
+                    <div class="balance-amount">
+                        <span id="mainBalance">$0.00</span>
+                        <div class="balance-change positive">+2.5%</div>
+                    </div>
+                    <button id="withdrawBtn" class="btn btn-outline">
+                        Withdraw Funds
+                    </button>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="card stats-card">
+                    <h3>Today's Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Clicks</span>
+                            <span id="todayClicks" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Earned</span>
+                            <span id="todayEarnings" class="stat-value">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings Chart -->
+                <div class="card chart-card">
+                    <h3>Earnings History</h3>
+                    <canvas id="earningsChart"></canvas>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card activity-card">
+                    <h3>Recent Activity</h3>
+                    <div id="activityList" class="activity-list">
+                        <!-- Activity items will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad Section -->
+            <section class="ad-section">
+                <div class="card ad-card">
+                    <h3>Start Earning</h3>
+                    <p>Click ads to earn revenue. You get 40% of each click!</p>
+                    <div id="adContainer" class="ad-container">
+                        <!-- Ads will be inserted here -->
+                    </div>
+                    <button id="getNewAd" class="btn btn-primary">
+                        Get New Ad
+                    </button>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- Modals -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content">
+            <h3>Withdraw Funds</h3>
+            <input type="number" id="withdrawAmount" placeholder="Enter amount">
+            <div class="modal-actions">
+                <button id="confirmWithdraw" class="btn btn-primary">Confirm</button>
+                <button id="cancelWithdraw" class="btn btn-outline">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/themes.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
